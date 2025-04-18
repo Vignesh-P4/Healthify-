@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Health App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+        }
+        nav ul li {
+            display: inline;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .logo {
+            width: 300px; /* Small size */
+            height: auto;
+            align-self: center;
+        }
+    </style>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Healthify+ Logo" class="logo">
+    <nav>
+        <ul>
+            <li><a href="/symptom-checker">Symptom Checker</a></li>
+            <li><a href="/first-aid-guide">First Aid Guide</a></li>
+            <li><a href="/courses">Courses</a></li>
+            <li><a href="/doctor-consultation">Doctor Consultation</a></li>
+            <li><a href="/hospitals">Hospitals</a></li>
+            <li><a href="/health-insurance">Health Insurance</a></li>
+        </ul>
+       
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

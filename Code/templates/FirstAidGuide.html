@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}First Aid Guide{% endblock %}
+
+{% block content %}
+    <h1 class="text-center text-4xl font-bold mb-8 text-gray-900">First Aid Guide</h1>
+    <p class="text-center text-xl mb-8 text-gray-600">Learn essential first aid techniques with easy access to videos and images.</p>
+
+    <div class="text-center mb-6">
+        <input type="text" id="searchInput" class="p-3 border rounded-md w-80 mx-auto" placeholder="Search first aid guides..." oninput="filterItems()">
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="firstAidContainer">
+        {% for item in first_aid_items %}
+            <div class="first-aid-item p-6 border-2 border-gray-300 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300" data-keywords="{{ item.keywords }}">
+                
+                <!-- Image Display -->
+                <div class="mb-4">
+                    {% if item.image_url %}
+                        <img src="{{ item.image_url }}" alt="{{ item.title }} image" class="w-full h-48 object-cover rounded-lg shadow-md">
+                    {% else %}
+                        <div class="w-full h-48 bg-gray-300 rounded-lg"></div>
+                    {% endif %}
+                </div>
+                
+                <!-- Title and Description -->
+                <h2 class="text-2xl font-semibold mb-2 text-gray-800">{{ item.title }}</h2>
+                <p class="text-gray-700 mb-4">{{ item.description }}</p>
+                
+                <!-- Video Display -->
+                {% if item.video_url %}
+                    <div class="mb-4 relative"> <!-- 6:4 Aspect Ratio -->
+                        <iframe class="absolute top-0 left-0 w-full h-full rounded-lg shadow-md" src="{{ item.video_url }}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+                
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function filterItems() {
+            var input = document.getElementById('searchInput');
+            var filter = input.value.toLowerCase();
+            var items = document.querySelectorAll('.first-aid-item');
+
+            items.forEach(function(item) {
+                var title = item.querySelector('h2').textContent.toLowerCase();
+                var keywords = item.getAttribute('data-keywords').toLowerCase();
+                if (title.includes(filter) || keywords.includes(filter)) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+    <style>
+        /* Card Hover Effect */
+        .first-aid-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Styling for videos (6:4 aspect ratio) */
+        iframe {
+            width: 60%;
+            height: 328.5px; /* Adjust height for 6:4 aspect ratio */
+            border-radius: 8px;
+        }
+
+        /* Custom styling for images */
+        img {
+            width: 60%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Search Bar */
+        input[type="text"] {
+            font-size: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 2px solid #ddd;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007BFF;
+        }
+
+        /* Responsive Typography */
+        h1 {
+            font-size: 3rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+        }
+
+        /* Grid Styling */
+        .grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+{% endblock %}
